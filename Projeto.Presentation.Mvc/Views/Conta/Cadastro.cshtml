@@ -1,0 +1,96 @@
+﻿@model Projeto.Presentation.Mvc.Models.ContaCadastroModel
+@using Projeto.Infra.Data.Enums
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5>Cadastro de Contas</h5>
+<hr/>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Nome da Conta:</label>
+                @Html.TextBoxFor(model => model.NomeConta,
+                    new { @class = "form-control", placeholder = "Digite aqui" })
+                <span class="text-danger">
+                    @Html.ValidationMessageFor(model => model.NomeConta)
+                </span>
+            </div>
+            <div class="form-group">
+                <label>Data da Conta:</label>
+                @Html.TextBoxFor(model => model.DataConta,
+                    new { @class = "form-control", type = "date" })
+                <span class="text-danger">
+                    @Html.ValidationMessageFor(model => model.DataConta)
+                </span>
+            </div>
+            <div class="form-group">
+                <label>Valor da Conta:</label>
+                @Html.TextBoxFor(model => model.ValorConta,
+                    new { @class = "form-control", placeholder = "Digite aqui" })
+                <span class="text-danger">
+                    @Html.ValidationMessageFor(model => model.ValorConta)
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cadastrar Conta"
+                       class="btn btn-success"/>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Tipo da Conta:</label>
+                        @Html.DropDownListFor(model => model.Tipo,
+                            Html.GetEnumSelectList(typeof(TipoConta)),
+                            "Escolha uma opção",
+                            new { @class = "form-control" })
+                        <span class="text-danger">
+                            @Html.ValidationMessageFor(model => model.Tipo)
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Categoria da Conta:</label>
+                        @Html.DropDownListFor(model => model.Categoria,
+                            Html.GetEnumSelectList(typeof(CategoriaConta)),
+                            "Escolha uma opção",
+                            new { @class = "form-control" })
+                        <span class="text-danger">
+                            @Html.ValidationMessageFor(model => model.Categoria)
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Forma de Pagamento:</label>
+                        @Html.DropDownListFor(model => model.FormaDePagamento,
+                            Html.GetEnumSelectList(typeof(FormaDePagamento)),
+                            "Escolha uma opção",
+                            new { @class = "form-control" })
+                        <span class="text-danger">
+                            @Html.ValidationMessageFor(model => model.FormaDePagamento)
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Observações da Conta</label>
+                    @Html.TextAreaFor(model => model.Observacoes,
+                        new { @class = "form-control", @placeholder = "Digite aqui", 
+                              @rows = "4" })
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Observacoes)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

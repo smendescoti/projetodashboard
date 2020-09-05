@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5>Relatórios de Contas</h5>
+<hr />
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-4">
+
+            <label>Data de Início:</label>
+            <input type="date" name="DataMin" class="form-control" />
+            <br />
+
+            <label>Data de Término:</label>
+            <input type="date" name="DataFim" class="form-control" />
+            <br />
+
+            <label>Tipo do Relatório:</label>
+            <select class="form-control" name="Tipo">
+                <option value="1">PDF</option>
+                <option value="2">EXCEL</option>
+            </select>
+            <br />
+
+            <input type="submit" value="Gerar Relatório"
+                   class="btn btn-success"/>
+
+        </div>
+    </div>
+}
+

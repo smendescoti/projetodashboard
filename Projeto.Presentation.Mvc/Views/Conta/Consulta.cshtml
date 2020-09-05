@@ -1,0 +1,84 @@
+﻿@model Projeto.Presentation.Mvc.Models.ContaConsultaModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5>Consulta de Contas</h5>
+<hr />
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-3">
+            <label>Data de Início:</label>
+            @Html.TextBoxFor(model => model.DataInicio,
+                new { @class = "form-control", @type = "date" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.DataInicio)
+            </span>
+        </div>
+        <div class="col-md-3">
+            <label>Data de Término:</label>
+            @Html.TextBoxFor(model => model.DataTermino,
+                new { @class = "form-control", @type = "date" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.DataTermino)
+            </span>
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Pesquisar Contas"
+                   class="btn btn-success" style="margin-top: 30px;" />
+        </div>
+    </div>
+}
+
+<br />
+
+@if (Model != null && Model.ListagemContas != null && Model.ListagemContas.Count > 0)
+{
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Nome da Conta</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Forma de Pagamento</th>
+                <th width="160">Operações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListagemContas)
+            {
+                <tr>
+                    <td>@item.NomeConta</td>
+                    <td>@item.DataConta.ToString("dd/MM/yyyy")</td>
+                    <td>@item.ValorConta.ToString("c")</td>
+                    <td>@item.Tipo.ToString()</td>
+                    <td>@item.Categoria.ToString()</td>
+                    <td>@item.FormaDePagamento.ToString()</td>
+                    <td>
+                        <a href="/Conta/Edicao/@item.Id" 
+                           class="btn btn-primary btn-sm">
+                            Atualizar
+                        </a>
+                        <a href="/Conta/Exclusao/@item.Id"
+                           onclick="return confirm('Deseja excluir a conta selecionada?');"
+                           class="btn btn-danger btn-sm">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7">
+                    Quantidade de contas: @Model.ListagemContas.Count
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

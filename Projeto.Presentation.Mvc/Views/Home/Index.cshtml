@@ -1,0 +1,102 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5>DASHBOARD - Painel Principal</h5>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <div id="graficoTipoConta"></div>
+    </div>
+    <div class="col-md-4">
+        <div id="graficoCategoriaConta"></div>
+    </div>
+    <div class="col-md-4">
+        <div id="graficoFormaDePagamentoConta"></div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <script>
+
+        //iniciando o jquery
+        $(document).ready(function () {
+
+            //função AJAX para carregar a consulta de tipo de contas
+            $.ajax({
+                type: "POST",
+                url: '/Conta/ObterTotalPorTipoConta',
+                success: function (data) {
+                    gerarGrafico(data, 'graficoTipoConta', 'Contas / Tipo');
+                }
+            });
+
+            //função AJAX para carregar a consulta de categoria de contas
+            $.ajax({
+                type: "POST",
+                url: '/Conta/ObterTotalPorCategoriaConta',
+                success: function (data) {
+                    gerarGrafico(data, 'graficoCategoriaConta', 'Contas / Categoria');
+                }
+            });
+
+            //função AJAX para carregar a consulta de forma de pagamento
+            $.ajax({
+                type: "POST",
+                url: '/Conta/ObterTotalPorFormaDePagamento',
+                success: function (data) {
+                    gerarGrafico(data, 'graficoFormaDePagamentoConta', 'Contas / Forma de Pagamento');
+                }
+            });
+
+        });
+
+        function gerarGrafico(data, location, titulo) {
+            var array = [];
+
+            for (var i = 0; i < data.length; i++) {
+                array.push([
+                    data[i].name, data[i].data[0]
+                ]);
+            }
+
+            new Highcharts.Chart({
+                chart: {
+                    type: 'pie',
+                    renderTo: location
+                },
+                title: {
+                    verticalAlign: 'middle',
+                    floating: true,
+                    text: titulo
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: '75%',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                exporting: { enabled: false },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    data: array
+                }]
+            });
+        }
+
+    </script>
+}
+
+
